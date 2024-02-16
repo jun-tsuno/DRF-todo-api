@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from rest_framework.views import APIView
@@ -9,16 +8,16 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from .serializers import UserSerializer, LoginSerializer, SignupSerializer
+from .models import CustomUser
 
 # Create your views here.
 class LoginView(APIView):
   def post(self, request):
-    print(request.data)
     serializer = LoginSerializer(data=request.data)
     if serializer.is_valid():
-      username = request.data.get('username')
+      email = request.data.get('email')
       password = request.data.get('password')
-      user = authenticate(username=username, password=password)
+      user = authenticate(email=email, password=password)
       if user:
         token, created = Token.objects.get_or_create(user=user)
         serializer = UserSerializer(user)
@@ -33,13 +32,11 @@ class SignupView(APIView):
   def post(self, request):
     serializer = SignupSerializer(data=request.data)
     if serializer.is_valid():
+      username = request.data.get('username')
       email = request.data.get('email')
       password = request.data.get('password')
-
-      if User.objects.filter(email=email).exists():
-        return Response({"error": "User already exists with the email"})
       try:
-        user = User.objects.create_user(username=email, email=email, password=password)
+        user = CustomUser.objects.create_user(username=username, email=email, password=password)
       except ValidationError as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
