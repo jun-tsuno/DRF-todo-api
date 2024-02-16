@@ -28,3 +28,9 @@ class TodoSerializer(serializers.ModelSerializer):
 
   def get_status_display(self, obj):
     return obj.get_status_display()
+
+
+class TodoWriteSerializer(serializers.ModelSerializer):
+  class Meta():
+    model = Todo
+    fields = ['title', 'status']

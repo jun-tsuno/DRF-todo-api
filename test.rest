@@ -14,3 +14,15 @@ Content-Type: application/json
 GET http://127.0.0.1:8000/todo-list
 Content-Type: application/json
 Authorization: Token
+
+###
+GET http://127.0.0.1:8000/todo-list/3
+Content-Type: application/json
+Authorization: Token
+
+###
+PUT http://127.0.0.1:8000/todo-list/5
+Content-Type: application/json
+Authorization: Token
+
+{"title": "new title", "status": 3}
