@@ -8,4 +8,9 @@ Content-Type: application/json
 POST http://127.0.0.1:8000/signup
 Content-Type: application/json
 
-{"username": "hoge", "email": "hoge@hoge.com", "password": "Password"}
+{"username": "hoge2", "email": "hoge2@hoge.com", "password": "Password"}
+
+###
+GET http://127.0.0.1:8000/todo-list
+Content-Type: application/json
+Authorization: Token
